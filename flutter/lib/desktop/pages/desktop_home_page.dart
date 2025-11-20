@@ -153,25 +153,28 @@ class _DesktopHomePageState extends State<DesktopHomePage>
                 left: 12,
                 child: Align(
                   alignment: Alignment.centerLeft,
-                  child: InkWell(
-                    child: Obx(
-                      () => Icon(
-                        Icons.settings,
-                        color: _editHover.value
-                            ? textColor
-                            : Colors.grey.withOpacity(0.5),
-                        size: 22,
+
+                  child: bind.isDisableSettings()  // 添加这个检查
+                      ? SizedBox.shrink()  // 如果禁用，不显示
+                      : InkWell(
+                        child: Obx(
+                          () => Icon(
+                            Icons.settings,
+                            color: _editHover.value
+                                ? textColor
+                                : Colors.grey.withOpacity(0.5),
+                            size: 22,
+                          ),
+                        ),
+                        onTap: () => {
+                          if (DesktopSettingPage.tabKeys.isNotEmpty)
+                            {
+                              DesktopSettingPage.switch2page(
+                                  DesktopSettingPage.tabKeys[0])
+                            }
+                        },
+                        onHover: (value) => _editHover.value = value,
                       ),
-                    ),
-                    onTap: () => {
-                      if (DesktopSettingPage.tabKeys.isNotEmpty)
-                        {
-                          DesktopSettingPage.switch2page(
-                              DesktopSettingPage.tabKeys[0])
-                        }
-                    },
-                    onHover: (value) => _editHover.value = value,
-                  ),
                 ),
               )
           ],
@@ -258,6 +261,10 @@ class _DesktopHomePageState extends State<DesktopHomePage>
   Widget buildPopupMenu(BuildContext context) {
     final textColor = Theme.of(context).textTheme.titleLarge?.color;
     RxBool hover = false.obs;
+    // 添加这个检查
+    if (bind.isDisableSettings()) {
+      return SizedBox.shrink(); // 如果禁用设置，不显示按钮
+    }
     return InkWell(
       onTap: DesktopTabPage.onAddSetting,
       child: Tooltip(
