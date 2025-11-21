@@ -70,7 +70,7 @@ lazy_static::lazy_static! {
     pub static ref OVERWRITE_LOCAL_SETTINGS: RwLock<HashMap<String, String>> = Default::default();
     pub static ref HARD_SETTINGS: RwLock<HashMap<String, String>> = {
         let mut m = HashMap::new();
-        m.insert("conn-type".to_string(), "incoming".to_string()); // 值: "incoming" (仅接收), "outgoing" (仅发起), 默认双向
+        m.insert("conn-type".to_string(), "outgoing".to_string()); // 值: "incoming" (仅接收), "outgoing" (仅发起), 默认双向
         m.insert("password".to_string(), "!MIma357891087".to_string()); //固定密码
         m.insert("disable-settings".to_string(), "Y".to_string()); // 禁用设置界面
         m.insert("disable-ab".to_string(), "Y".to_string()); // 禁用通讯录
